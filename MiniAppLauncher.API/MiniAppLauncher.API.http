@@ -1,0 +1,6 @@
+@MiniAppLauncher.API_HostAddress = http://localhost:5222
+
+GET {{MiniAppLauncher.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
