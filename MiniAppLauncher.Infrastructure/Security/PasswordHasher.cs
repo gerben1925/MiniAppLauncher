@@ -1,10 +1,11 @@
 ﻿using Konscious.Security.Cryptography;
+using MiniAppLauncher.Application.Interfaces.Security;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MiniAppLauncher.Infrastructure.Helper
+namespace MiniAppLauncher.Infrastructure.Security
 {
-    public class PasswordHelper
+    public sealed class PasswordHasher : IPasswordHasher
     {
         public (string hash, byte[] salt) HashPassword(string password)
         {

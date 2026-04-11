@@ -1,4 +1,5 @@
-﻿using MiniAppLauncher.Application.Interfaces.Repositories;
+﻿using Dapper;
+using MiniAppLauncher.Application.Interfaces.Repositories;
 using MiniAppLauncher.Domain.Entities;
 using MiniAppLauncher.Infrastructure.DataAccess;
 
@@ -17,7 +18,7 @@ namespace MiniAppLauncher.Infrastructure.Repositories
        
         public async Task<IEnumerable<UserEntity>> GetAllUserAsync()
         {
-            var sqlQuery = @"
+         const string sqlQuery = @"
                     SELECT 
                         UserID,
                         UserReference,
@@ -53,6 +54,55 @@ namespace MiniAppLauncher.Infrastructure.Repositories
             var result = await _dapperExecutor.ExecuteScalarAsync<int>(sql, userEntity);
 
             return result;  
+        }
+
+        public async Task<UserEntity?> GetUserDetailByEmail(string email)
+        {
+            if(string.IsNullOrWhiteSpace(email))
+                return null;
+
+            const string sqlQuery = @"
+                    SELECT TOP 1
+                        UserID,
+                        UserReference,
+                        LastName,
+                        FirstName,
+                        PasswordHash,
+                        PasswordSalt,
+                        Email,
+                        RoleID,
+                        CreatedAt,
+                        IsActive,
+                        Notes
+                    FROM [dbo].[Users]
+                    Where Email = @Email ";
+
+            var result = await _dapperExecutor.QuerySingleAsync<UserEntity>(sqlQuery, new { Email = email });
+            return result;
+        }
+
+        public async Task<UserEntity?> GetUserDetailByUserReference(string userReference)
+        {
+            if (string.IsNullOrWhiteSpace(userReference))
+                return null;
+
+            const string sqlQuery = @"
+                            SELECT TOP 1
+                            UserID, 
+                            UserReference, 
+                            LastName, 
+                            FirstName,
+                            PasswordHash, 
+                            PasswordSalt, 
+                            Email,
+                            RoleID, 
+                            CreatedAt, 
+                            IsActive, 
+                            Notes
+                            FROM [dbo].[Users]
+                            WHERE UserReference = @UserReference";
+
+            return await _dapperExecutor.QuerySingleAsync<UserEntity>(sqlQuery, new { UserReference = userReference });
         }
 
     }

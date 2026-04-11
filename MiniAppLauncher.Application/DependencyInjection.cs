@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MiniAppLauncher.Application.Features.Auth.UseCases;
 using MiniAppLauncher.Application.Features.User.UseCases;
 
 
@@ -9,7 +10,9 @@ namespace MiniAppLauncher.Application
         public static IServiceCollection AddApplicationCollection(this IServiceCollection services) 
         {
             services.AddScoped<GetUsersUseCase>()
-                    .AddScoped<RegisterUserUseCase>();
+                    .AddScoped<RegisterUserUseCase>()
+                    .AddScoped<LoginUseCase>()
+                    .AddScoped<VerifyLoginOtpUseCase>();
                     
 
             return services;

@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Middleware\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MiniAppLauncher.Application\MiniAppLauncher.Application.csproj" />
     <ProjectReference Include="..\MiniAppLauncher.Infrastructure\MiniAppLauncher.Infrastructure.csproj" />
   </ItemGroup>

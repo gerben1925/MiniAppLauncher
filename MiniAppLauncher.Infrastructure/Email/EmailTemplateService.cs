@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using MiniAppLauncher.Application.Services;
+using MiniAppLauncher.Application.Interfaces.Email;
 using MiniAppLauncher.Infrastructure.Helper;
 
 
@@ -13,7 +13,7 @@ namespace MiniAppLauncher.Infrastructure.Services
             _config = configuration;
         }
 
-        public (string emailSubject, string emailBody) BuildVerificationEmailAsync(string? name, string? email)
+        public (string emailSubject, string emailBody) BuildVerificationEmailContent(string? name, string? email)
         {
             var generateStrings = new GenerateStrings();
             var tokenLength = _config.GetValue<int>("EmailVerificationAccountSettings:TokenLength");
@@ -49,5 +49,21 @@ namespace MiniAppLauncher.Infrastructure.Services
 
             return (subject , body);
         }
+
+        public (string emailSubject, string emailBody) BuildLoginOtpEmailContent(string otpCode, int expiredIn)
+        {
+            var subject = "Your OTP Code";
+
+            var body = $@"
+                            <p>This email is to provide the login code required to access the site.</p>
+                            <p>Your one-time pin (OTP) is: <strong>&gt;&gt; {otpCode} &lt;&lt;</strong>. It will expire in {expiredIn} minute(s).</p>
+                            <p>Please do not share it with anyone.<br/>
+                            If you didn’t request this, please ignore this email or contact our support team immediately.</p>
+                            <p>Stay secure,</p>";
+
+            return (subject, body);
+        }
+
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using MiniAppLauncher.Application.Services;
+using MiniAppLauncher.Application.Interfaces.Email;
 using MiniAppLauncher.Infrastructure.Helper;
 using System.Net;
 using System.Net.Mail;

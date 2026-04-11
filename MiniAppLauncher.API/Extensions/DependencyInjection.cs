@@ -5,16 +5,10 @@ namespace MiniAppLauncher.API.Extensions
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddServiceCollections(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddServiceCollections(this IServiceCollection services)
         {
-            //var connectionString = configuration.GetConnectionString("DefaultConnection")
-            //   ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
-
-            //services.AddScoped<IDBConnectionFactory, DBConnectionFactory>(_ =>
-            //                    new DBConnectionFactory(connectionString));
-
-            
+         
+        
 
             return services;
         }

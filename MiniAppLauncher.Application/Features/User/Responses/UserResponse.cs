@@ -13,7 +13,7 @@ namespace MiniAppLauncher.Application.Features.User.Responses
         public string LastName { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
-        public string PasswordSalt { get; set; } = string.Empty;
+        public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
         public string Email { get; set; } = string.Empty;
         public int RoleID { get; set; }
         public string CreatedAt { get; set; } = string.Empty;

@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MiniAppLauncher.Application.Interfaces.DataAccess;
+using MiniAppLauncher.Application.Interfaces.Email;
 using MiniAppLauncher.Application.Interfaces.Repositories;
-using MiniAppLauncher.Application.Services;
+using MiniAppLauncher.Application.Interfaces.Security;
 using MiniAppLauncher.Infrastructure.DataAccess;
 using MiniAppLauncher.Infrastructure.Repositories;
+using MiniAppLauncher.Infrastructure.Security;
 using MiniAppLauncher.Infrastructure.Services;
 
 
@@ -19,7 +21,12 @@ namespace MiniAppLauncher.Infrastructure
                     .AddScoped<IUserRepository, UserRepository>()
                     .AddScoped<IAccountVerificationRepository, AccountVerificationRepository>()
                     .AddScoped<IEmailTemplateService, EmailTemplateService>()
-                    .AddScoped<IEmailService, EmailService>();
+                    .AddScoped<IEmailService, EmailService>()
+                    .AddScoped<IPasswordHasher, PasswordHasher>()
+                    .AddScoped<IOtpGenerator, OtpGenerator>()
+                    .AddScoped<IUserOtpRepository , UserOtpRepository>()
+                    .AddScoped<IJwtTokenService, JwtTokenService>()
+                    .AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             return services;
         }

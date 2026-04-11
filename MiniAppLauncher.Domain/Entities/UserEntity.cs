@@ -13,7 +13,7 @@ namespace MiniAppLauncher.Domain.Entities
         public string LastName { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
-        public string PasswordSalt { get; set; } = string.Empty;
+        public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
         public string Email { get; set; } = string.Empty;
         public int RoleID { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -13,5 +13,7 @@ namespace MiniAppLauncher.Application.Interfaces.Repositories
     {
         Task<IEnumerable<UserEntity>> GetAllUserAsync();
         Task<int> RegesterNewUser(UserEntity newUserRequest);
+        Task<UserEntity?> GetUserDetailByEmail(string email);
+        Task<UserEntity?> GetUserDetailByUserReference(string userReference);
     }
 }

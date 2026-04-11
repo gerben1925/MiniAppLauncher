@@ -1,8 +1,7 @@
 ﻿using MiniAppLauncher.Application.Features.User.Requests;
+using MiniAppLauncher.Application.Interfaces.Email;
 using MiniAppLauncher.Application.Interfaces.Repositories;
-using MiniAppLauncher.Application.Services;
 using MiniAppLauncher.Domain.Entities;
-using System.Security.Cryptography.X509Certificates;
 
 namespace MiniAppLauncher.Application.Features.User.UseCases
 {
@@ -59,7 +58,7 @@ namespace MiniAppLauncher.Application.Features.User.UseCases
         {
             var fullName = $"{user.FirstName} {user.LastName}".Trim();
 
-            var (subject, body) = _emailTemplateService.BuildVerificationEmailAsync(fullName, user.Email);
+            var (subject, body) = _emailTemplateService.BuildVerificationEmailContent(fullName, user.Email);
 
             await _emailService.SendEmailAsync(user.Email, subject, body);
         }

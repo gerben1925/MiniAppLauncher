@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniAppLauncher.Application.Common.Template
+namespace MiniAppLauncher.Application.Interfaces.Repositories
 {
-    public class EmailTemplates
+    public interface IAuthenticationRepository
     {
     }
 }
