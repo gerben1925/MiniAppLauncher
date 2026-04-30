@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
+using MiniAppLauncher.Application.Interfaces.Configuration;
 using MiniAppLauncher.Application.Interfaces.Email;
-using MiniAppLauncher.Infrastructure.Helper;
 using System.Net;
 using System.Net.Mail;
 
@@ -8,11 +8,11 @@ namespace MiniAppLauncher.Infrastructure.Services
 {
     public class EmailService : IEmailService
     {
-        private readonly IConfiguration _config;
+        private readonly IAppSettingProvider _appSettingProvider;
    
-        public EmailService(IConfiguration configuration)
+        public EmailService(IAppSettingProvider appSettingProvider)
         {
-            _config = configuration;
+            _appSettingProvider = appSettingProvider;
         }  
         
         public async Task SendEmailAsync(string to, string subject, string body)
@@ -21,18 +21,19 @@ namespace MiniAppLauncher.Infrastructure.Services
                 
                 using var smtp = new SmtpClient
                 {
-                    Host = _config["SmtpCredentials:Host"] ?? string.Empty,
-                    Port = _config.GetValue<int>("SmtpCredentials:Port"),
+                    Host = _appSettingProvider.GetString("SmtpCredentials:Host") ?? string.Empty,
+                    Port = _appSettingProvider.GetInt("SmtpCredentials:Port"),
                     EnableSsl = true,
                     Credentials = new NetworkCredential(
-                        _config["SmtpCredentials:NetworkCredentialUsername"],
-                        _config["SmtpCredentials:NetworkCredentialPass"]
+                        _appSettingProvider.GetString("SmtpCredentials:NetworkCredentialUsername") ?? string.Empty,
+                        _appSettingProvider.GetString("SmtpCredentials:NetworkCredentialPass") ?? string.Empty
                     )
+
                 };
 
                 var message = new MailMessage
                 {
-                    From = new MailAddress(_config["SmtpCredentials:FROMEmail"] ?? string.Empty),
+                    From = new MailAddress(_appSettingProvider.GetString("SmtpCredentials:FROMEmail") ?? string.Empty),
                     Subject = subject,
                     Body = body,
                     IsBodyHtml = true

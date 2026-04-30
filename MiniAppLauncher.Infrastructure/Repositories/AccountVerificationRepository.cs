@@ -12,22 +12,8 @@ namespace MiniAppLauncher.Infrastructure.Repositories
             _dapperExecutor = dapperExecutor;
         }
 
-        public async Task<int> NewAccountVerificationToken(int userId, string token)
+        public async Task<int> NewAccountVerificationToken(AccountVerificationEntity accountVerificationEntity)
         {
-            if (userId <= 0)
-                throw new ArgumentException("Invalid userId");
-
-            if (string.IsNullOrWhiteSpace(token))
-                throw new ArgumentException("Token cannot be empty");
-
-            var entity = new AccountVerificationEntity
-            {
-                UserID = userId,
-                Token = token,
-                CreatedAt = DateTime.UtcNow
-            };
-
-
             const string sql = @"
                               
                             INSERT INTO AccountVerificationTokens 
@@ -39,8 +25,43 @@ namespace MiniAppLauncher.Infrastructure.Repositories
                             ";
 
 
-            var result = await _dapperExecutor.ExecuteScalarAsync<int>(sql, entity);
+            var result = await _dapperExecutor.ExecuteScalarAsync<int>(sql, accountVerificationEntity);
             return result;
         }
+
+        public async Task<AccountVerificationEntity?> GetAccountVerificationByToken(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                return null;
+
+            const string sqlQuery = @"
+                    SELECT TOP 1
+                        TokenId,
+                        UserID,
+                        Token,
+                        CreatedAt,
+                        IsUsed
+                    FROM AccountVerificationTokens
+                    Where Token = @Token ";
+
+            var result = await _dapperExecutor.QuerySingleAsync<AccountVerificationEntity>(sqlQuery, new { Token = token });
+            return result;
+        }
+
+        public async Task<bool> UpdateUserToAddPasswordAsync(string token, int userId)
+        {
+            const string sql = @"
+                            UPDATE AccountVerificationTokens 
+                                SET IsUsed = 1
+                                WHERE UserId = @UserId AND Token = @Token
+                            ";
+
+
+            var result = await _dapperExecutor.ExecuteAsync(sql, new {Token = token, UserId  = userId});
+       
+            return result > 0;
+        }
+
+
     }
 }

@@ -1,10 +1,12 @@
-﻿namespace MiniAppLauncher.Infrastructure.Helper
+﻿using MiniAppLauncher.Application.Interfaces.Common;
+
+namespace MiniAppLauncher.Infrastructure.Common
 {
-    public class GenerateStrings
+    public class StringGenerator : IStringGenerator
     {
         private readonly Random _random = new Random();
 
-        public string GetRandomBytes(int length)
+        public string GenerateRandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             var random = new Random();

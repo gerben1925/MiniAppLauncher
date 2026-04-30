@@ -105,5 +105,19 @@ namespace MiniAppLauncher.Infrastructure.Repositories
             return await _dapperExecutor.QuerySingleAsync<UserEntity>(sqlQuery, new { UserReference = userReference });
         }
 
+        public async Task<bool> UpdateUserToAddPasswordAsync(UserEntity userEntity)
+        {
+            const string sql = @"
+                            UPDATE [dbo].[Users]
+                                SET PasswordHash = @PasswordHash,
+                                    PasswordSalt = @PasswordSalt
+                                WHERE UserId = @UserId
+                            ";
+
+
+            var result = await _dapperExecutor.ExecuteAsync(sql, userEntity);
+            return result > 0;
+        }
+
     }
 }

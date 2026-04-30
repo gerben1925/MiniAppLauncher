@@ -1,23 +1,22 @@
 ﻿using Microsoft.Extensions.Configuration;
+using MiniAppLauncher.Application.Interfaces.Configuration;
 using MiniAppLauncher.Application.Interfaces.Security;
-using MiniAppLauncher.Infrastructure.Helper;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace MiniAppLauncher.Infrastructure.Security
 {
     public class OtpGenerator : IOtpGenerator
     {
-        private readonly IConfiguration _config;
-        public OtpGenerator(IConfiguration config)
+        private readonly IAppSettingProvider _appSettingProvider;
+        public OtpGenerator(IAppSettingProvider appSettingProvider)
         {
-            _config = config;
+            _appSettingProvider = appSettingProvider;
         }
 
         public (string otp, DateTime createdAt, DateTime expiresAt, int expiresInMinutes) GenerateOtp()
         {
-            int otpLength = _config.GetValue<int>("OtpSettings:Length");
-            int expiryMinutes = _config.GetValue<int>("OtpSettings:ExpirationMinutes");
+            int otpLength = _appSettingProvider.GetInt("OtpSettings:Length");
+            int expiryMinutes = _appSettingProvider.GetInt("OtpSettings:ExpirationMinutes");
 
             var now = DateTime.UtcNow;
 
