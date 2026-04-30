@@ -1,11 +1,4 @@
-﻿using MiniAppLauncher.Application.Features.User.Requests;
-using MiniAppLauncher.Application.Features.User.Responses;
-using MiniAppLauncher.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MiniAppLauncher.Domain.Entities;
 
 namespace MiniAppLauncher.Application.Interfaces.Repositories
 {
@@ -15,5 +8,6 @@ namespace MiniAppLauncher.Application.Interfaces.Repositories
         Task<int> RegesterNewUser(UserEntity newUserRequest);
         Task<UserEntity?> GetUserDetailByEmail(string email);
         Task<UserEntity?> GetUserDetailByUserReference(string userReference);
+        Task<bool> UpdateUserToAddPasswordAsync(UserEntity userEntity);
     }
 }

@@ -16,10 +16,12 @@ namespace MiniAppLauncher.API.Controllers
     {
         private readonly LoginUseCase _loginUseCase;
         private readonly VerifyLoginOtpUseCase _verifyLoginOtpUseCase;
-        public AuthenticationController(LoginUseCase loginUseCase, VerifyLoginOtpUseCase verifyLoginOtpUseCase)
+        private readonly ActivateUserAccountUseCase _activateUserAccountUseCase;
+        public AuthenticationController(LoginUseCase loginUseCase, VerifyLoginOtpUseCase verifyLoginOtpUseCase, ActivateUserAccountUseCase activateUserAccountUseCase)
         {
             _loginUseCase = loginUseCase;
             _verifyLoginOtpUseCase = verifyLoginOtpUseCase;
+            _activateUserAccountUseCase = activateUserAccountUseCase;
         }
 
         [AllowAnonymous]
@@ -53,6 +55,18 @@ namespace MiniAppLauncher.API.Controllers
             return StatusCode(500, new { Message = "Failed to generate Token." });
         }
 
+
+        [AllowAnonymous]
+        [HttpPost("verify-account")]
+        public async Task<ActionResult> VerifyAccount([FromBody] VerifyAccountRequest request)
+        {
+            var result = await _activateUserAccountUseCase.ExecuteAsync(request);
+
+            if (!result.IsSuccess)
+                return StatusCode(result.StatusCode, new ErrorResponse { Message = result.ErrorMessage });
+
+            return Ok(new SuccessResponse { Message = result.SuccessMessage ?? "Account successfully activated." });
+        }
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MiniAppLauncher.Application.Interfaces.Email;
-using MiniAppLauncher.Infrastructure.Helper;
+
 
 
 namespace MiniAppLauncher.Infrastructure.Services
@@ -13,14 +13,8 @@ namespace MiniAppLauncher.Infrastructure.Services
             _config = configuration;
         }
 
-        public (string emailSubject, string emailBody) BuildVerificationEmailContent(string? name, string? email)
+        public (string emailSubject, string emailBody) BuildVerificationEmailContent(string? name, string? email, string token, string verificationLink)
         {
-            var generateStrings = new GenerateStrings();
-            var tokenLength = _config.GetValue<int>("EmailVerificationAccountSettings:TokenLength");
-            var token = generateStrings.GetRandomBytes(tokenLength);
-
-            var frontEndLink = _config.GetValue<string>("FrontEnd:BaseUrl");
-            var verificationLink = $"{frontEndLink}verify-account?token={token}";
 
             var subject = "Welcome! Your Account Has Been Created";
 

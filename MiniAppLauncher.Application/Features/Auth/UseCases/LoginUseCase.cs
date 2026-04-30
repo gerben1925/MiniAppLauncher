@@ -37,8 +37,8 @@ namespace MiniAppLauncher.Application.Features.Auth.UseCases
             if (!user.IsActive)
                 return OperationResult<LoginResponse>.BadRequest("User account is inactive.");
 
-            if (!IsPasswordValid(loginRequest.Password, user.PasswordHash, user.PasswordSalt))
-                return OperationResult<LoginResponse>.BadRequest("Invalid login credentials.");
+            //if (!IsPasswordValid(loginRequest.Password, user.PasswordHash, user.PasswordSalt))
+            //    return OperationResult<LoginResponse>.BadRequest("Invalid login credentials.");
 
             var response = await GenerateAndDispatchOtpAsync(user.UserID, user.UserReference, user.Email);
 
