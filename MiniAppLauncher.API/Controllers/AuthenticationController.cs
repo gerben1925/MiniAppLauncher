@@ -17,11 +17,14 @@ namespace MiniAppLauncher.API.Controllers
         private readonly LoginUseCase _loginUseCase;
         private readonly VerifyLoginOtpUseCase _verifyLoginOtpUseCase;
         private readonly ActivateUserAccountUseCase _activateUserAccountUseCase;
-        public AuthenticationController(LoginUseCase loginUseCase, VerifyLoginOtpUseCase verifyLoginOtpUseCase, ActivateUserAccountUseCase activateUserAccountUseCase)
+        private readonly ResetPasswordUseCase _resetPasswordUseCase;
+        public AuthenticationController(LoginUseCase loginUseCase, VerifyLoginOtpUseCase verifyLoginOtpUseCase, ActivateUserAccountUseCase activateUserAccountUseCase, ResetPasswordUseCase resetPasswordUseCase)
         {
             _loginUseCase = loginUseCase;
             _verifyLoginOtpUseCase = verifyLoginOtpUseCase;
             _activateUserAccountUseCase = activateUserAccountUseCase;
+            _resetPasswordUseCase = resetPasswordUseCase;
+
         }
 
         [AllowAnonymous]
@@ -67,6 +70,20 @@ namespace MiniAppLauncher.API.Controllers
 
             return Ok(new SuccessResponse { Message = result.SuccessMessage ?? "Account successfully activated." });
         }
+
+     
+
+        [AllowAnonymous]
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest forgotPasswordRequest)
+        {
+            var result = await _resetPasswordUseCase.ExecuteAsync(forgotPasswordRequest);
+            if (!result.IsSuccess)
+                return StatusCode(result.StatusCode, new ErrorResponse { Message = result.ErrorMessage });
+
+            return Ok(new ResetPasswordResponse { Message = result.SuccessMessage ?? "Password reset email sent successfully." });
+        }
+
 
     }
 }
