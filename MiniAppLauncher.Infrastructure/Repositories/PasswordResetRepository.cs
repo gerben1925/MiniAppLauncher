@@ -29,5 +29,40 @@ namespace MiniAppLauncher.Infrastructure.Repositories
             return result;
         }
 
+        public async Task<PasswordResetEntity?> GetPasswordResetByToken(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                return null;
+
+            const string sqlQuery = @"
+                    SELECT TOP 1
+                        [Id],
+                        [UserId],
+                        [Token],
+                        [CreatedAt],
+	                    [ExpiredAt],
+                        IsUsed
+                    FROM [dbo].[PasswordReset]
+                    Where Token = @Token ";
+
+            var result = await _dapperExecutor.QuerySingleAsync<PasswordResetEntity>(sqlQuery, new { Token = token });
+            return result;
+        }
+
+        public async Task<bool> UpdatePasswordResetAsync(string token, int userId)
+        {
+            const string sql = @"
+                            UPDATE [dbo].[PasswordReset]
+                                SET IsUsed = 1
+                                WHERE UserId = @UserId AND Token = @Token
+                            ";
+
+
+            var result = await _dapperExecutor.ExecuteAsync(sql, new { Token = token, UserId = userId });
+
+            return result > 0;
+        }
+
+
     }
 }
