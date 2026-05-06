@@ -17,12 +17,15 @@ namespace MiniAppLauncher.API.Controllers
         private readonly LoginUseCase _loginUseCase;
         private readonly VerifyLoginOtpUseCase _verifyLoginOtpUseCase;
         private readonly ActivateUserAccountUseCase _activateUserAccountUseCase;
-        private readonly ForgotPasswordUseCase _resetPasswordUseCase;
-        public AuthenticationController(LoginUseCase loginUseCase, VerifyLoginOtpUseCase verifyLoginOtpUseCase, ActivateUserAccountUseCase activateUserAccountUseCase, ForgotPasswordUseCase resetPasswordUseCase)
+        private readonly ForgotPasswordUseCase _forgotPasswordUseCase;
+        private readonly ResetPasswordUseCase _resetPasswordUseCase;
+
+        public AuthenticationController(LoginUseCase loginUseCase, VerifyLoginOtpUseCase verifyLoginOtpUseCase, ActivateUserAccountUseCase activateUserAccountUseCase, ForgotPasswordUseCase forgotPasswordUseCase, ResetPasswordUseCase resetPasswordUseCase)
         {
             _loginUseCase = loginUseCase;
             _verifyLoginOtpUseCase = verifyLoginOtpUseCase;
             _activateUserAccountUseCase = activateUserAccountUseCase;
+            _forgotPasswordUseCase = forgotPasswordUseCase;
             _resetPasswordUseCase = resetPasswordUseCase;
 
         }
@@ -77,13 +80,24 @@ namespace MiniAppLauncher.API.Controllers
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest forgotPasswordRequest)
         {
-            var result = await _resetPasswordUseCase.ExecuteAsync(forgotPasswordRequest);
+            var result = await _forgotPasswordUseCase.ExecuteAsync(forgotPasswordRequest);
             if (!result.IsSuccess)
                 return StatusCode(result.StatusCode, new ErrorResponse { Message = result.ErrorMessage });
 
             return Ok(new ResetPasswordResponse { Message = result.SuccessMessage ?? "Password reset email sent successfully." });
         }
 
+
+        [AllowAnonymous]
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest resetPasswordRequest)
+        {
+            var result = await _resetPasswordUseCase.ExecuteAsync(resetPasswordRequest);
+            if (!result.IsSuccess)
+                return StatusCode(result.StatusCode, new ErrorResponse { Message = result.ErrorMessage });
+
+            return Ok(new ResetPasswordResponse { Message = result.SuccessMessage ?? "Password reset successful." });
+        }
 
     }
 }

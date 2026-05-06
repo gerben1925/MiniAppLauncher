@@ -10,5 +10,7 @@ namespace MiniAppLauncher.Application.Interfaces.Repositories
     public interface IPasswordResetRepository
     {
         Task<int> NewPasswordResetAsync(PasswordResetEntity passwordResetEntity);
+        Task<PasswordResetEntity?> GetPasswordResetByToken(string token);
+        Task<bool> UpdatePasswordResetAsync(string token, int userId);
     }
 }
