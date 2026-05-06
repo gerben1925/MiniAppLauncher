@@ -58,6 +58,41 @@ namespace MiniAppLauncher.Infrastructure.Services
             return (subject, body);
         }
 
+        public (string emailSubject, string emailBody) BuildResetEmailContent(string? name, string? email, string token, string verificationLink, int expiredIn)
+        {
+
+            var subject = "Password Reset";
+
+            var body = $@"
+                        <p>Hi {name ?? string.Empty},</p>
+
+                        
+                        <p>We received a request to reset the password associated with your account. If you made this request, please click the button below to reset your password. This link is only valid for the next <strong>{expiredIn} minutes</strong>.</p>
+
+                        <p style='text-align: center;'>
+                          <a href='{verificationLink}' style='display: inline-block; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;'>Set Your Password</a>
+                        </p>
+
+                        <p>If the button above doesn’t work, copy and paste the following link into your browser:</p>
+                        <p style='word-break: break-all;'>{verificationLink}</p><br/><br/>
+
+
+                        <p><strong>For your security:</strong></p>
+                        <ul>
+                          <li>Do not share this link with anyone.</li>
+                          <li>If you did not request a password reset, you can safely ignore this email. No changes will be made to your account.</li>
+                          <li>This link will expire in {expiredIn} minutes to protect your account.</li>
+                        </ul>
+
+                        <p>Need more help? Feel free to contact our support team.</p>
+
+                        <p>Thanks,<br/></p>
+                        ";
+
+            return (subject, body);
+        }
+
+
 
     }
 }

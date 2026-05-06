@@ -34,7 +34,8 @@ namespace MiniAppLauncher.Infrastructure
                     .AddScoped<IAccountVerificationRepository, AccountVerificationRepository>()
                     .AddScoped<IAppSettingProvider, AppSettingProvider>()
                     .AddScoped<IStringGenerator, StringGenerator>()
-                    .AddScoped<IAccountVerificationRepository , AccountVerificationRepository>();
+                    .AddScoped<IAccountVerificationRepository , AccountVerificationRepository>()
+                    .AddScoped<IPasswordResetRepository, PasswordResetRepository>();
 
             return services;
         }
