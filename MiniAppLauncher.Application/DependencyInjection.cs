@@ -14,7 +14,7 @@ namespace MiniAppLauncher.Application
                     .AddScoped<LoginUseCase>()
                     .AddScoped<VerifyLoginOtpUseCase>()
                     .AddScoped<ActivateUserAccountUseCase>()
-                    .AddScoped<ResetPasswordUseCase>();
+                    .AddScoped<ForgotPasswordUseCase>();
                     
 
             return services;

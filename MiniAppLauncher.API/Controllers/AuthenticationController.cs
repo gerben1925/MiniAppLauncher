@@ -17,8 +17,8 @@ namespace MiniAppLauncher.API.Controllers
         private readonly LoginUseCase _loginUseCase;
         private readonly VerifyLoginOtpUseCase _verifyLoginOtpUseCase;
         private readonly ActivateUserAccountUseCase _activateUserAccountUseCase;
-        private readonly ResetPasswordUseCase _resetPasswordUseCase;
-        public AuthenticationController(LoginUseCase loginUseCase, VerifyLoginOtpUseCase verifyLoginOtpUseCase, ActivateUserAccountUseCase activateUserAccountUseCase, ResetPasswordUseCase resetPasswordUseCase)
+        private readonly ForgotPasswordUseCase _resetPasswordUseCase;
+        public AuthenticationController(LoginUseCase loginUseCase, VerifyLoginOtpUseCase verifyLoginOtpUseCase, ActivateUserAccountUseCase activateUserAccountUseCase, ForgotPasswordUseCase resetPasswordUseCase)
         {
             _loginUseCase = loginUseCase;
             _verifyLoginOtpUseCase = verifyLoginOtpUseCase;

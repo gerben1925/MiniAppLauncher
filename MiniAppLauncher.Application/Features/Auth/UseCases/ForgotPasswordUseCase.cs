@@ -10,7 +10,7 @@ using MiniAppLauncher.Domain.Entities;
 
 namespace MiniAppLauncher.Application.Features.Auth.UseCases
 {
-    public class ResetPasswordUseCase
+    public class ForgotPasswordUseCase
     {
         private readonly IUserRepository _userRepository;
         private readonly IAccountVerificationRepository _accountVerificationRepository;
@@ -20,7 +20,7 @@ namespace MiniAppLauncher.Application.Features.Auth.UseCases
         private readonly IEmailService _emailService;
         private readonly IEmailTemplateService _emailTemplateService;
 
-        public ResetPasswordUseCase(IUserRepository userRepository, IAccountVerificationRepository accountVerificationRepository, IPasswordResetRepository passwordResetRepository, IAppSettingProvider appSettingProvider, IStringGenerator stringGenerator, IEmailService emailService, IEmailTemplateService emailTemplateService)
+        public ForgotPasswordUseCase(IUserRepository userRepository, IAccountVerificationRepository accountVerificationRepository, IPasswordResetRepository passwordResetRepository, IAppSettingProvider appSettingProvider, IStringGenerator stringGenerator, IEmailService emailService, IEmailTemplateService emailTemplateService)
         {
             _userRepository = userRepository;
             _accountVerificationRepository = accountVerificationRepository;
